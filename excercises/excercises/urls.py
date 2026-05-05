@@ -16,9 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from blog.views import contact_view
+from blog.views import contact_view, recent_django_articles
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('contact/', contact_view, name='contact'),
+    path('django-recent/', recent_django_articles, name='django-articles'),
 ]

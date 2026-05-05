@@ -1,5 +1,7 @@
 from django.shortcuts import render
+from django.http import JsonResponse
 from .forms import ContactForm
+from .models import Article, Category
 
 
 def contact_view(request):
@@ -15,3 +17,13 @@ def contact_view(request):
     else:
         form = ContactForm()
         return render(request, 'blog/contact.html', context={'form': form})
+
+
+def recent_django_articles(request):
+    recent_articles = Article.objects.filter(title__icontains='django').all()
+    articles_order_by_date = Article.objects.filter(published_at__gte='2024-01-01').all()
+    data = {
+        'recent_articles': list(recent_articles.values()),
+        'articles_order_by_date': list(articles_order_by_date.values())
+    }
+    return JsonResponse(data, json_dumps_params={'indent': 4})
